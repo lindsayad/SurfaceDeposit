@@ -1,24 +1,24 @@
-#ifndef FLUXBCUDOT1_H
-#define FLUXBCUDOT1_H
+#ifndef FLUXBCUDOT_H
+#define FLUXBCUDOT_H
 
 #include "IntegratedBC.h"
 
 // Forward Declarations
-class FluxBCudot1;
+class FluxBCudot;
 
 template <>
-InputParameters validParams<FluxBCudot1>();
+InputParameters validParams<FluxBCudot>();
 
 /**
  * Implements Neumann BC where grad(u)=udot-something on the boundary.
  */
 
-class FluxBCudot1 : public IntegratedBC
+class FluxBCudot : public IntegratedBC
 
 {
 public:
 
-  FluxBCudot1(const InputParameters & parameters);
+  FluxBCudot(const InputParameters & parameters);
 
 protected:
   virtual Real computeQpResidual() override;

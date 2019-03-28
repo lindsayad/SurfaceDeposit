@@ -1,7 +1,6 @@
-inactive = 'Postprocessors'
 [Mesh]
   type = GeneratedMesh
-  dim = 2
+  dim = 1
   nx = 10
   xmax = 1
   ny = 10

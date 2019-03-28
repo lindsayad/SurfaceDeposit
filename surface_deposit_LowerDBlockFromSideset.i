@@ -1,4 +1,3 @@
-inactive = 'Postprocessors'
 [Mesh]
   type = GeneratedMesh
   dim = 2
@@ -119,16 +118,25 @@ inactive = 'Postprocessors'
   []
 []
 
+[MeshModifiers]
+  [SurfaceBlock]
+    type = LowerDBlockFromSideset
+    new_block_id = 10
+    sidesets = '3'
+    new_block_name = Surface
+  []
+[]
+
 [NodalKernels]
   [Udeposit_dot]
     type = TimeDerivativeNodalKernel
     variable = C_R
-    boundary = 'left'
+    block = '10'
   []
   [Udeposit_other]
     type = Udeposit
     variable = C_R
     coupled_var = 'C_O'
-    boundary = 'left'
+    block = '10'
   []
 []

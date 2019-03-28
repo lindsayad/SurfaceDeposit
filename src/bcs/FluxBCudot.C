@@ -1,12 +1,11 @@
-// operate on C_O, coupled C_R
+// operate on C_R or C_O, in coupling term they have the same form.
+#include "FluxBCudot.h"
 
-#include "FluxBCudot1.h"
-
-registerMooseObject("SurfaceDepositApp", FluxBCudot1);
+registerMooseObject("SurfaceDepositApp", FluxBCudot);
 
 template <>
 InputParameters
-validParams<FluxBCudot1>()
+validParams<FluxBCudot>()
 {
   InputParameters params = validParams<IntegratedBC>();
 
@@ -15,7 +14,7 @@ validParams<FluxBCudot1>()
   return params;
 }
 
-FluxBCudot1::FluxBCudot1(const InputParameters & parameters)
+FluxBCudot::FluxBCudot(const InputParameters & parameters)
   : IntegratedBC(parameters),
     _couple_var(coupledValue("coupled_var")),
     _couple_var_offjac(coupled("coupled_var")),
@@ -25,22 +24,25 @@ FluxBCudot1::FluxBCudot1(const InputParameters & parameters)
 }
 
 Real
-FluxBCudot1::computeQpResidual()
+FluxBCudot::computeQpResidual()
 {
-    return  _test[_i][_qp] * - (_u_dot[_qp]-(_couple_var[_qp]-_u[_qp]));
+    return  _test[_i][_qp] * - (_u_dot[_qp]+(_u[_qp]-_couple_var[_qp]));
 }
 
 Real
-FluxBCudot1::computeQpJacobian()
+FluxBCudot::computeQpJacobian()
 {
   return _test[_i][_qp] * - (_du_dot_du[_qp] + 1) * _phi[_j][_qp];
 }
 
 Real
-FluxBCudot1::computeQpOffDiagJacobian(unsigned int jvar)
+FluxBCudot::computeQpOffDiagJacobian(unsigned int jvar)
 {
   if (jvar == _couple_var_offjac)
     return _test[_i][_qp] * _phi[_j][_qp];
   else
     return 0;
 }
+
+
+
