@@ -26,20 +26,20 @@ FluxBCudot::FluxBCudot(const InputParameters & parameters)
 Real
 FluxBCudot::computeQpResidual()
 {
-    return  _test[_i][_qp] * - (_u_dot[_qp]+(_u[_qp]-_couple_var[_qp]));
+    return  _test[_i][_qp] * (_u_dot[_qp]+(_u[_qp]-_couple_var[_qp]));
 }
 
 Real
 FluxBCudot::computeQpJacobian()
 {
-  return _test[_i][_qp] * - (_du_dot_du[_qp] + 1) * _phi[_j][_qp];
+  return _test[_i][_qp] * (_du_dot_du[_qp] + 1) * _phi[_j][_qp];
 }
 
 Real
 FluxBCudot::computeQpOffDiagJacobian(unsigned int jvar)
 {
   if (jvar == _couple_var_offjac)
-    return _test[_i][_qp] * _phi[_j][_qp];
+    return _test[_i][_qp] * - _phi[_j][_qp];
   else
     return 0;
 }
