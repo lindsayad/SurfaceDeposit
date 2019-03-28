@@ -104,14 +104,14 @@
 []
 
 [Executioner]
+  # petsc_options_iname = '-pc_type -pc_hypre_type'
+  # petsc_options_value = 'hypre boomeramg'
   # solve_type = NEWTON
   # petsc_options_iname = '-snes_type'
   # petsc_options_value = 'test'
-  # petsc_options = '-ksp_converged_reason -snes_converged_reason -snes_test_display'
   type = Transient
+  petsc_options = '-ksp_converged_reason -snes_converged_reason -snes_test_display'
   solve_type = PJFNK
-  petsc_options_iname = '-pc_type -pc_hypre_type'
-  petsc_options_value = 'hypre boomeramg'
   num_steps = 1000
   end_time = 1.8
   dtmax = 0.5e-2
@@ -133,33 +133,12 @@
 []
 
 [Functions]
-  # #####parameter#####
-  # #####parameter#####
-  E1 = '1.3'
-  v = '1'
-  E0 = '0.85'
-  [E]
-    type = ParsedFunction
-    value = 'if(t<=0.9, ${E1}-${v}*t, ${E1}+${v}*t-2*${v}*0.9)'
-  []
   [C_R_IC_funtion]
     # Give C_R a small value to trigger the flux exchange
     type = ParsedFunction
     vars = 'a'
     value = 'a*x-a'
     vals = '-1E-9'
-  []
-  [Exp_1]
-    type = ParsedFunction
-    value = '1' # 6.2.2 time dependent
-    vars = 'n F R T alpha'
-    vals = '1 96485 8.314 300 0.5'
-  []
-  [Exp_2]
-    type = ParsedFunction
-    vars = 'n F R T alpha'
-    value = '1'
-    vals = '1 96485 8.314 300 0.5'
   []
 []
 
@@ -185,9 +164,5 @@
     diffusivity = D_R
     variable = 'C_R'
     boundary = 'left'
-  []
-  [E]
-    type = FunctionValuePostprocessor
-    function = E
   []
 []
