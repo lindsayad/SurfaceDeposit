@@ -37,6 +37,10 @@
     type = TimeDerivative
     variable = C_O
   []
+  [C_R]
+    type = NullKernel
+    variable = C_R
+  []
 []
 
 [BCs]
@@ -78,7 +82,7 @@
   petsc_options_iname = '-pc_type -pc_hypre_type'
   petsc_options_value = 'hypre boomeramg'
   petsc_options = '-ksp_converged_reason -snes_converged_reason -snes_test_display'
-  solve_type = JFNK
+  solve_type = PJFNK
   num_steps = 1000
   end_time = 1.8
   dtmax = 0.5e-2
